@@ -10,6 +10,8 @@ import knowyoursos.updatedbmicroservice.repositories.FireRepository;
 import knowyoursos.updatedbmicroservice.repositories.PoliceRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -21,6 +23,22 @@ public class UpdateDBService {
     private final AmbulanceRepository ambulanceRepository;
     private final FireRepository fireRepository;
     private final PoliceRepository policeRepository;
+
+    private final WebClient webClient = WebClient.create();
+
+    public boolean updateDB(){
+
+        String url = "https://raw.githubusercontent.com/EmergencyNumberAPI/data/refs/heads/master/data.json";
+
+        String result = webClient.get()
+                                       .uri(url)
+                                       .retrieve()
+                                       .bodyToMono(String.class)
+                                       .block();
+        System.out.println(result);
+
+        return true;
+    }
 
     public List<Ambulance> getAllAmbulanceNumbers() {
         return ambulanceRepository.findAll();

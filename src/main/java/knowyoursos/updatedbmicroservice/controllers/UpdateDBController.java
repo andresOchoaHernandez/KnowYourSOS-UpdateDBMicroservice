@@ -15,8 +15,8 @@ public class UpdateDBController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public ResponseEntity<String> getAllCountries()
+    public ResponseEntity<Boolean> getAllCountries()
     {
-        return ResponseEntity.ok("Response ok");
+        return ResponseEntity.ok(updateDBService.updateDB());
     }
 }
